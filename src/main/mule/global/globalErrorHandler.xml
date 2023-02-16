@@ -8,7 +8,19 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 	
 	
-	<on-error-propagate type="APIKIT:BAD_REQUEST">
+	<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="725b41b8-4f54-4edd-8ed4-643e80fc8e55" type="HTTP:CONNECTIVITY">
+			<ee:transform doc:name="Transform Message" doc:id="49222ecf-f574-4098-92a7-1a73e2682518" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "HTTP Connectivity issue"
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:BAD_REQUEST">
                 <ee:transform>
                     <ee:message>
                         <ee:set-payload><![CDATA[%dw 2.0
@@ -86,6 +98,18 @@ output application/json
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b11c8529-4960-4b53-a685-216672e34199" type="ANY">
+			<ee:transform doc:name="Transform Message" doc:id="a5293a04-52ae-42a7-80e8-0b96124022e3" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Critical Error"
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
 	
 	
 	
